@@ -6,10 +6,10 @@ MAINTAINER Babak Gh
 RUN mkdir -p /app
 WORKDIR /app
 
+#copy the source files
+COPY . /app
+
 # Build app
 RUN go build
-
-#copy the source files
-COPY ./martini-api-example /app
 
 CMD ["/app/martini-api-example"]
