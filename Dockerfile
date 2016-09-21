@@ -11,5 +11,3 @@ COPY . /app
 
 # Build app
 RUN go build
-
-CMD ["/app/martini-api-example"]
