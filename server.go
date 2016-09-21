@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 	"github.com/go-martini/martini"
-	"github.com/martini-contrib/auth"
+	// "github.com/martini-contrib/auth"
 )
 
 // The one and only access token! In real-life scenarios, a more complex authentication
@@ -21,7 +21,7 @@ func init() {
 	// Setup middleware
 	m.Use(martini.Recovery())
 	m.Use(martini.Logger())
-	m.Use(auth.Basic(AuthToken, ""))
+	// m.Use(auth.Basic(AuthToken, ""))
 	m.Use(MapEncoder)
 	// Setup routes
 	r := martini.NewRouter()
@@ -88,11 +88,14 @@ func main() {
 		// on the non-https server, regardless of the route. This could of course be done
 		// on a reverse-proxy in front of this web server.
 		//
-		if err := http.ListenAndServe(":8000", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			http.Error(w, "https scheme is required", http.StatusBadRequest)
-		})); err != nil {
+		if err := http.ListenAndServe(":8000", m); err != nil {
 			log.Fatal(err)
 		}
+		// if err := http.ListenAndServe(":8000", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// 	http.Error(w, "https scheme is required", http.StatusBadRequest)
+		// })); err != nil {
+		// 	log.Fatal(err)
+		// }
 	}()
 
 	// Listen on https: with the preconfigured martini instance. The certificate files
